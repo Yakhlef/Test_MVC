@@ -2,23 +2,77 @@ extends layout
 block content
   .row
     .col-md-4.col-md-offset-4
-      .form-area
-        form(role="form")
-          br(style="clear:both")
-          h3(style="margin-bottom: 25px; text-align: center;") Contact Form
-          .form-group
-            input#name.form-control(type="text", name="name", placeholder="Name", required="")
-          .form-group
-            input#email.form-control(type="text", name="email", placeholder="Email", required="")
-          .form-group
-            input#mobile.form-control(type="text", name="mobile", placeholder="Mobile Number", required="")
-          .form-group
-            input#subject.form-control(type="text", name="subject", placeholder="Subject", required="")
-          .form-group
-            textarea#message.form-control(type="textarea", placeholder="Message", maxlength="140", rows="7")
-            span.help-block
-              p#characterLeft.help-block You have reached the limit
-          button#submit.btn.btn-primary.pull-right(type="button", name="submit") Submit Form
+      form#form.form-signin(role="form" , action="/addPersonView", method="post")        
+        br(style="clear:both")
+        h3(style="margin-bottom: 25px; text-align: center;") Contact Form
+        .form-group
+          input#name.form-control(type="text", name="name", placeholder="Name", required="")
+        .form-group
+          input#age.form-control(type="text", name="age", placeholder="Age", required="")
+        .form-group
+          input#phone.form-control(type="text", name="phone", placeholder="phone Number", required="")
+        .form-group
+          input#DOB.form-control(type="text", name="DOB", placeholder="DOB", required="")
+        
+        button#submit.btn.btn-primary.pull-right(type="submit") Submit Form
+  
+  .row
+    .col-md-8.col-md-offset-2
+      .panel-body
+        table-responsive
+          table#off.table.table-striped.table-bordered.table-condensed.table-hover
+            thead
+              th(width='10%') الاسم
+              th(width='3%') العمر
+              th(width='3%') رقم الهاتف
+              th(width='3%') تاريخ الميلاد
+              th(width='2%') تعديل
+              th(width='2%') الغاء 
+            tbody#centers
+              for person in people
+                tr
+                  td= person.name
+                  td= person.age
+                  td= person.phone
+                  td= person.DOB
+                  td
+                    button#view.btn.btn-primary.btn-xs(data-title='Edit', data-toggle='modal',value="#{person.id_person}", data-target='#edit', data-placement='top', rel='tooltip')
+                      span.glyphicon.glyphicon-eye-open
+                  td      
+                    button#delete.btn.btn-info.btn-xs(href='#del', data-toggle='modal',value="#{person.id_person}")
+                      span.glyphicon.glyphicon-hand-left 
+  
+  
+  #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog
+      form#formPerson.form-signin(role="form" , action="/editPerson/", method="post")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true")
+              span.glyphicon.glyphicon-remove(aria-hidden="true")
+            h4#Heading.modal-title.custom_align تعديل قسم
+          .modal-body 
+            .form-group
+              label.h4 اﻷسم
+              input#a.form-control(type="text", placeholder="اﻷسم", name="name")
+            .form-group
+              label.h4 العمر
+              input#b.form-control(type="text", placeholder="العمر", name="age")
+            .form-group
+              label.h4 رقم النقال
+              input#c.form-control(type="text", placeholder="الهاتف", name="phone")
+            .form-group
+              label.h4 تاريخ الميلاد
+              input#d.form-control(type="text", placeholder="تاريخ الميلاد", name="DOB")    
+              input#id_person(name="id_person" , type="hidden")
+            //- .form-group
+            //-   textarea.form-control(rows="2", placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan")
+          .modal-footer
+            button#save.btn.btn-warning.btn-lg(style="width: 100%;")
+              span.glyphicon.glyphicon-ok-sign
+              |  تعديل
+      // /.modal-content
+    // /.modal-dialog
 
 
 
