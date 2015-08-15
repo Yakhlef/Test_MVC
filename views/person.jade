@@ -30,19 +30,19 @@ block content
               th(width='2%') الغاء 
             tbody#centers
               for person in people
-                tr
+                tr(id="person-#{person.id}",data-name="#{person.name}",data-age="#{person.age}",data-phone="#{person.phone}",data-DOB="#{person.DOB}")
                   td= person.name
                   td= person.age
                   td= person.phone
                   td= person.DOB
                   td
-                    button#view.btn.btn-primary.btn-xs(data-title='Edit', data-toggle='modal',value="#{person.id_person}", data-target='#edit', data-placement='top', rel='tooltip')
+                    button#view.btn.btn-primary.btn-xs.edit_person(data-noname="#{person.id}" data-title='Edit', data-toggle='modal',value="#{person.id}", data-target='#edit', data-placement='top', rel='tooltip')
                       span.glyphicon.glyphicon-eye-open
                   td      
-                    button#delete.btn.btn-info.btn-xs(href='#del', data-toggle='modal',value="#{person.id_person}")
+                    button.btn.btn-info.btn-xs.delete_person(data-delete="#{person.id}" ,href='#delete', data-toggle='modal',value="#{person.id}",data-target='#delete')
                       span.glyphicon.glyphicon-hand-left 
   
-  
+  //- edit modal
   #edit.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
     .modal-dialog
       form#formPerson.form-signin(role="form" , action="/editPerson/", method="post")
@@ -64,7 +64,7 @@ block content
             .form-group
               label.h4 تاريخ الميلاد
               input#d.form-control(type="text", placeholder="تاريخ الميلاد", name="DOB")    
-              input#id_person(name="id_person" , type="hidden")
+              input#id_person(name="id" , type="hidden")
             //- .form-group
             //-   textarea.form-control(rows="2", placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan")
           .modal-footer
@@ -73,7 +73,30 @@ block content
               |  تعديل
       // /.modal-content
     // /.modal-dialog
-
+  //- delete modal
+  #delete.modal.fade.font(tabindex="-1", role="dialog", aria-labelledby="edit", aria-hidden="true")
+    .modal-dialog
+      form#formPerson.form-signin(role="form" , action="/deletePerson/", method="post")
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true")
+              span.glyphicon.glyphicon-remove(aria-hidden="true")
+            h4#Heading.modal-title.custom_align مسح شخص
+          .modal-body 
+            .form-group
+              label.h4 هل انت متأكد من حذف الشخص 
+              input#delete_name.form-control(type="text", placeholder="اﻷسم", name="name")
+              input#id_person2(name="id2" , type="hidden")
+            //- .form-group
+            //-   textarea.form-control(rows="2", placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan")
+          .modal-footer
+            button#save.btn.btn-danger.btn-lg(style="width: 50%;")
+              span.glyphicon.glyphicon-ok-sign
+              |  مسح
+            button.btn.btn-default.btn-lg(style="width: 50%;", type="button", data-dismiss="modal")
+              |  تراجع
+      // /.modal-content
+    // /.modal-dialog
 
 
   script(src='/js/jquery-1.11.3.min.js')
